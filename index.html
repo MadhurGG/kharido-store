@@ -1,0 +1,1016 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kharido — crafted goods, made for you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&display=swap" rel="stylesheet">
+<style>
+@property --c { syntax: '<color>'; inherits: true; initial-value: #B9783F; }
+:root {
+  --bg: #F1F3F2; --surface: #FFFFFF; --ink: #1A1E2B; --muted: #5B6275; --line: #D8DDE6;
+  --brand: #23307A; --brand-ink: #FFFFFF; --accent: #E3A21A; --ok: #1F7A4D; --danger: #B3261E;
+  --s1: #3B4BA8; --s2: #E3A21A; --s3: #2E8B7A; --s4: #7D8597; --s5: #B5546B; --s6: #8C6BD1;
+  --font: "Bricolage Grotesque", "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151E; --surface: #1B2030; --ink: #EDEFF5; --muted: #A0A8BC; --line: #2C3348;
+    --brand: #93A3F7; --brand-ink: #0F1330; --accent: #F0B64A; --ok: #53C28B; --danger: #FF8A80;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151E; --surface: #1B2030; --ink: #EDEFF5; --muted: #A0A8BC; --line: #2C3348;
+  --brand: #93A3F7; --brand-ink: #0F1330; --accent: #F0B64A; --ok: #53C28B; --danger: #FF8A80;
+}
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 84px); scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+body.locked { overflow: hidden; }
+h1, h2, h3, h4 { font-stretch: 88%; letter-spacing: -0.015em; line-height: 1.1; margin: 0; font-weight: 700; }
+p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+input, select { font: inherit; color: inherit; }
+img, svg { max-width: 100%; }
+:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; border-radius: 6px; }
+.container { width: min(1160px, 100% - 40px); margin-inline: auto; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.top-in { display: flex; align-items: center; gap: 16px; height: 68px; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.35rem; font-stretch: 85%; letter-spacing: -0.02em; text-decoration: none; color: var(--ink); }
+.logo svg { color: var(--brand); }
+.search { flex: 1; max-width: 420px; margin-left: auto; position: relative; }
+.search input { width: 100%; height: 42px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); padding: 0 16px 0 40px; }
+.search svg { position: absolute; left: 14px; top: 12px; color: var(--muted); }
+.icon-btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+.icon-btn[aria-pressed="true"] { border-color: var(--brand); color: var(--brand); }
+.count { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 99px; background: var(--brand); color: var(--brand-ink); font-size: .8rem; font-weight: 700; display: inline-grid; place-items: center; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 22px; border-radius: 999px; border: 1.5px solid var(--ink); background: transparent; font-weight: 600; text-decoration: none; transition: background .15s, color .15s; }
+.btn:hover { background: var(--ink); color: var(--bg); }
+.btn.primary { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.btn.primary:hover { filter: brightness(1.1); background: var(--brand); color: var(--brand-ink); }
+.btn.small { min-height: 38px; padding: 0 16px; font-size: .92rem; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.link { background: none; border: 0; padding: 0; color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 48px; align-items: center; padding: 56px 0 44px; }
+.hero h1 { font-size: clamp(2.5rem, 5.6vw, 4.6rem); font-weight: 750; font-stretch: 82%; letter-spacing: -0.03em; }
+.hero p.lead { margin-top: 20px; font-size: 1.125rem; color: var(--muted); max-width: 46ch; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.stage { --c: #B9783F; background: var(--surface); background: color-mix(in srgb, var(--c) 16%, var(--surface)); transition: --c .35s ease; border-radius: 28px; aspect-ratio: 1 / 1; display: grid; place-items: center; overflow: hidden; position: relative; }
+.stage svg { width: 86%; height: 86%; display: block; color: var(--ink); }
+.hero-stage { display: grid; gap: 14px; }
+.hero-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; padding: 4px 4px 0; }
+.hero-ctl .nm { font-weight: 700; font-size: 1.1rem; font-stretch: 88%; }
+.field-inline { display: flex; align-items: center; gap: 10px; }
+.field-inline label { color: var(--muted); font-size: .92rem; }
+.mono-in { width: 92px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); text-align: center; letter-spacing: .2em; font-weight: 700; text-transform: uppercase; }
+.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+.sw { width: 30px; height: 30px; border-radius: 50%; background: var(--sw); border: 2px solid var(--surface); box-shadow: 0 0 0 1.5px var(--line); padding: 0; }
+.sw[aria-pressed="true"] { box-shadow: 0 0 0 2.5px var(--brand); }
+
+/* promises */
+.promises { padding: 48px 0 24px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+.sec-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); max-width: 22ch; }
+.sec-head p { color: var(--muted); max-width: 48ch; }
+.pgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 40px; }
+.promise { padding: 22px 0 26px; border-top: 2px solid var(--ink); display: grid; gap: 8px; align-content: start; }
+.promise svg { color: var(--brand); }
+.promise h3 { font-size: 1.25rem; margin-top: 4px; }
+.promise p { color: var(--muted); font-size: .98rem; }
+.promise .link { justify-self: start; margin-top: 4px; }
+
+/* shop */
+.shop { padding: 56px 0 24px; }
+.bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { height: 38px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.sort { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: .94rem; }
+.sort select { height: 38px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); padding: 0 10px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 28px 22px; }
+.card { position: relative; display: grid; gap: 12px; align-content: start; }
+.card-media { --c: #B9783F; display: block; width: 100%; aspect-ratio: 1/1; border: 0; padding: 0; border-radius: 18px; overflow: hidden; background: var(--surface); background: color-mix(in srgb, var(--c) 16%, var(--surface)); transition: --c .3s ease, transform .2s ease; }
+.card-media:hover { transform: translateY(-3px); }
+.card-media svg { width: 90%; height: 90%; display: block; margin: auto; }
+.heart { position: absolute; top: 12px; right: 12px; width: 38px; height: 38px; border-radius: 50%; border: 0; background: color-mix(in srgb, var(--surface) 92%, transparent); display: grid; place-items: center; color: var(--muted); }
+.heart.on { color: #D6336C; }
+.heart.on svg { fill: currentColor; }
+.card-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.card h3 { font-size: 1.15rem; }
+.card h3 button { background: none; border: 0; padding: 0; text-align: left; font: inherit; letter-spacing: inherit; }
+.price { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.by { color: var(--muted); font-size: .92rem; }
+.card-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.dots { display: flex; gap: 8px; }
+.dots .sw { width: 20px; height: 20px; }
+.lead-t { color: var(--muted); font-size: .88rem; }
+.empty { grid-column: 1 / -1; padding: 40px; text-align: center; border: 1.5px dashed var(--line); border-radius: 18px; color: var(--muted); display: grid; gap: 14px; justify-items: center; }
+.recent { margin-top: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.recent h3 { font-size: 1.05rem; margin-right: 6px; }
+.rv { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 16px 4px 4px; }
+.rv .th { --c: #B9783F; width: 40px; height: 40px; border-radius: 50%; background: var(--surface); background: color-mix(in srgb, var(--c) 20%, var(--surface)); display: grid; place-items: center; overflow: hidden; }
+.rv .th svg { width: 90%; height: 90%; }
+
+/* quiz */
+.match, .trace { padding: 64px 0 24px; }
+.panel { background: var(--surface); border-radius: 28px; padding: clamp(22px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 40px; align-items: center; }
+.panel h2 { font-size: clamp(1.8rem, 3.2vw, 2.5rem); }
+.panel .sub { margin-top: 14px; color: var(--muted); max-width: 40ch; }
+.q-step { color: var(--muted); font-size: .92rem; margin-bottom: 10px; }
+.q-title { font-size: 1.5rem; margin-bottom: 18px; }
+.opts { display: grid; gap: 10px; }
+.opt { text-align: left; padding: 14px 18px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--bg); font-weight: 550; transition: border-color .15s, transform .15s; }
+.opt:hover { border-color: var(--brand); transform: translateX(3px); }
+.result { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 22px; align-items: center; }
+.result .stage { border-radius: 20px; }
+.result h3 { font-size: 1.7rem; margin: 4px 0 8px; }
+.result p { color: var(--muted); }
+.badge { display: inline-block; padding: 4px 12px; border-radius: 99px; background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); font-size: .88rem; font-weight: 650; }
+
+/* trace */
+.tform { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+.tform input { flex: 1; min-width: 190px; height: 46px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); padding: 0 18px; text-transform: uppercase; letter-spacing: .04em; }
+.tres { min-height: 220px; }
+.tmsg { color: var(--muted); border: 1.5px dashed var(--line); border-radius: 18px; padding: 26px; }
+.tcard { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 20px; align-items: start; }
+.tcard .stage { border-radius: 16px; }
+.tcard h3 { font-size: 1.35rem; }
+.tcard .quote { margin: 8px 0 14px; color: var(--muted); font-style: italic; }
+.tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.tl li { position: relative; padding: 0 0 14px 28px; font-size: .96rem; color: var(--muted); }
+.tl li::before { content: ""; position: absolute; left: 5px; top: 5px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); }
+.tl li::after { content: ""; position: absolute; left: 9px; top: 18px; bottom: -2px; width: 2px; background: var(--line); }
+.tl li:last-child::after { display: none; }
+.tl li.done { color: var(--ink); }
+.tl li.done::before { background: var(--ok); border-color: var(--ok); }
+.tl li.now { color: var(--ink); font-weight: 650; }
+.tl li.now::before { border-color: var(--accent); background: var(--accent); }
+.tl small { display: block; color: var(--muted); font-weight: 400; }
+
+footer { margin-top: 72px; border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--muted); font-size: .92rem; }
+footer .container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 40px; }
+
+/* dialogs */
+dialog { border: 0; padding: 0; background: var(--surface); color: var(--ink); max-width: none; max-height: none; }
+dialog::backdrop { background: rgba(12, 16, 30, .6); }
+dialog.modal { width: min(1000px, calc(100% - 24px)); max-height: calc(100% - 24px); margin: auto; border-radius: 22px; overflow: auto; }
+dialog.modal.narrow { width: min(680px, calc(100% - 24px)); }
+dialog.drawer { width: min(440px, 100%); height: 100%; margin: 0 0 0 auto; border-radius: 22px 0 0 22px; overflow: auto; }
+.x { position: absolute; top: 14px; right: 14px; z-index: 3; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; }
+.pm { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; padding: 28px; }
+.pm-left { display: grid; gap: 12px; align-content: start; }
+.pm .stage { border-radius: 20px; }
+.views { display: flex; gap: 8px; }
+.views button { flex: 1; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); font-weight: 550; }
+.views button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.pm-right { display: grid; gap: 16px; align-content: start; padding-top: 6px; }
+.pm h2 { font-size: 2rem; padding-right: 44px; }
+.rating { color: var(--muted); font-size: .92rem; }
+.rating b { color: var(--accent); }
+.pm .big-price { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pm .big-price small { font-size: .9rem; font-weight: 500; color: var(--muted); }
+.lbl { font-weight: 650; font-size: .95rem; margin-bottom: 8px; display: block; }
+.lbl span { font-weight: 400; color: var(--muted); }
+.buyrow { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; height: 46px; background: var(--bg); }
+.stepper button { width: 40px; height: 44px; border: 0; background: none; font-size: 1.2rem; }
+.stepper output { min-width: 26px; text-align: center; font-weight: 650; font-variant-numeric: tabular-nums; }
+.pin { display: flex; gap: 8px; }
+.pin input { width: 130px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); padding: 0 12px; letter-spacing: .1em; }
+.eta { font-size: .94rem; color: var(--muted); margin-top: 8px; min-height: 1.4em; }
+.eta strong { color: var(--ink); }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.tabs button { border: 0; background: none; padding: 10px 14px; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; white-space: nowrap; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--brand); }
+.tabp { padding-top: 16px; font-size: .96rem; display: grid; gap: 12px; }
+.tabp p { color: var(--muted); }
+.stack { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--line); }
+.stack i { display: block; height: 100%; }
+.legend { display: grid; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.legend li { display: grid; grid-template-columns: 14px 1fr auto auto; gap: 10px; align-items: center; }
+.legend .dot { width: 12px; height: 12px; border-radius: 3px; }
+.legend .amt { font-weight: 650; font-variant-numeric: tabular-nums; }
+.legend .pct { color: var(--muted); width: 3.2em; text-align: right; font-variant-numeric: tabular-nums; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; margin: 0; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; }
+.range { width: 100%; accent-color: var(--brand); }
+.bb-out { padding: 16px; border-radius: 14px; background: var(--bg); display: grid; gap: 4px; }
+.bb-out strong { font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+.bb-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.bb-row select { height: 38px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); padding: 0 10px; }
+ul.ticks { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+ul.ticks li { padding-left: 24px; position: relative; color: var(--muted); }
+ul.ticks li::before { content: ""; position: absolute; left: 3px; top: 7px; width: 10px; height: 6px; border-left: 2px solid var(--ok); border-bottom: 2px solid var(--ok); transform: rotate(-45deg); }
+
+/* cart */
+.cart { display: grid; grid-template-rows: auto 1fr auto; min-height: 100%; padding-top: 4px; }
+.cart-h { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px 12px; }
+.cart-h h2 { font-size: 1.5rem; }
+.cart-h .x { position: static; }
+.cart-b { padding: 0 22px; display: grid; gap: 16px; align-content: start; }
+.item { display: grid; grid-template-columns: 78px 1fr auto; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.item .stage { width: 78px; height: 78px; border-radius: 12px; aspect-ratio: auto; }
+.item h3 { font-size: 1rem; }
+.item .opt-t { color: var(--muted); font-size: .88rem; }
+.item .stepper { height: 34px; margin-top: 8px; }
+.item .stepper button { width: 32px; height: 32px; }
+.item .rm { background: none; border: 0; color: var(--muted); text-decoration: underline; font-size: .86rem; margin-left: 12px; }
+.cart-f { padding: 16px 22px calc(22px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); display: grid; gap: 12px; background: var(--surface); position: sticky; bottom: 0; }
+.row { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+.row.total { font-weight: 750; font-size: 1.15rem; }
+.row .neg { color: var(--ok); }
+.ship-bar { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.ship-bar i { display: block; height: 100%; background: var(--ok); }
+.promo { display: flex; gap: 8px; }
+.promo input { flex: 1; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); padding: 0 12px; text-transform: uppercase; }
+.msg { font-size: .88rem; color: var(--muted); }
+.msg.err { color: var(--danger); }
+.msg.ok { color: var(--ok); }
+.note { font-size: .88rem; color: var(--muted); }
+
+/* checkout */
+.co { padding: 28px; display: grid; gap: 18px; position: relative; }
+.co h2 { font-size: 1.8rem; padding-right: 44px; }
+.fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fgrid .full { grid-column: 1 / -1; }
+.f label { display: block; font-weight: 600; font-size: .92rem; margin-bottom: 6px; }
+.f input { width: 100%; height: 46px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); padding: 0 14px; }
+.f input[aria-invalid="true"] { border-color: var(--danger); }
+.f .msg { margin-top: 4px; min-height: 1.2em; }
+.paygrid { display: grid; gap: 10px; }
+.pay { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 14px; cursor: pointer; }
+.pay:has(input:checked) { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 7%, var(--surface)); }
+.pay input { accent-color: var(--brand); margin-top: 4px; }
+.pay b { display: block; }
+.pay span { color: var(--muted); font-size: .92rem; }
+.done-card { text-align: left; display: grid; gap: 14px; }
+.done-card h2 { font-size: 2rem; }
+.codes { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.codes li { display: flex; justify-content: space-between; gap: 10px; padding: 10px 14px; border-radius: 10px; background: var(--bg); font-variant-numeric: tabular-nums; }
+
+/* toast */
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); background: var(--ink); color: var(--bg); padding: 12px 20px; border-radius: 999px; font-weight: 550; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 100; max-width: calc(100% - 32px); text-align: center; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; gap: 28px; padding-top: 32px; }
+  .pgrid { grid-template-columns: 1fr 1fr; }
+  .panel { grid-template-columns: 1fr; gap: 28px; }
+  .pm { grid-template-columns: 1fr; padding: 18px; gap: 22px; }
+}
+@media (max-width: 600px) {
+  .pgrid { grid-template-columns: 1fr; }
+  .result, .tcard { grid-template-columns: 1fr; }
+  .tcard .stage { max-width: 130px; }
+  .fgrid { grid-template-columns: 1fr; }
+  .icon-btn .lab { display: none; }
+  .top-in { gap: 10px; }
+  .logo span { display: none; }
+  .co { padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
+}
+
+/* ---------- Kharido visual refresh ---------- */
+:root{--bg:#F6F7FB;--surface:#FFF;--ink:#111827;--muted:#667085;--line:#E4E7EC;--brand:#FF6B35;--brand-ink:#FFF;--accent:#F4B740;--ok:#16845B}.top{background:color-mix(in srgb,var(--surface) 84%,transparent);box-shadow:0 6px 24px rgba(17,24,39,.06)}.top-in{height:72px}.logo{font-size:1.55rem;letter-spacing:-.045em}.logo svg{color:var(--brand);filter:drop-shadow(0 3px 8px rgba(255,107,53,.18))}.search input{box-shadow:inset 0 1px 2px rgba(16,24,40,.03);transition:border-color .18s,box-shadow .18s}.search input:focus{border-color:color-mix(in srgb,var(--brand) 55%,var(--line));box-shadow:0 0 0 4px color-mix(in srgb,var(--brand) 12%,transparent);outline:none}.icon-btn{transition:transform .18s,border-color .18s,box-shadow .18s}.icon-btn:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--brand) 45%,var(--line));box-shadow:0 8px 18px rgba(17,24,39,.07)}.btn.primary{box-shadow:0 10px 22px color-mix(in srgb,var(--brand) 24%,transparent)}.btn.primary:hover{transform:translateY(-1px)}.hero{position:relative;padding-top:70px}.hero::before{content:"";position:absolute;inset:24px -7% auto auto;width:44%;height:70%;border-radius:999px;background:radial-gradient(circle,color-mix(in srgb,var(--brand) 13%,transparent),transparent 68%);pointer-events:none;z-index:-1}.hero h1{max-width:760px;text-wrap:balance}.hero p.lead{max-width:54ch}.stage{box-shadow:0 24px 70px rgba(17,24,39,.10)}.card-media{box-shadow:0 12px 30px rgba(17,24,39,.06)}.card-media:hover{box-shadow:0 18px 38px rgba(17,24,39,.10)}.card{transition:transform .2s ease}.card:hover{transform:translateY(-2px)}.promise{border-top-color:color-mix(in srgb,var(--brand) 55%,var(--ink))}.promise svg{color:var(--brand)}.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}.panel{box-shadow:0 18px 55px rgba(17,24,39,.07)}.badge{background:color-mix(in srgb,var(--ok) 12%,transparent)}footer{background:color-mix(in srgb,var(--surface) 65%,var(--bg))}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1420;--surface:#151D2B;--ink:#F5F7FA;--muted:#A6B0C3;--line:#293447;--brand:#FF7A45;--brand-ink:#16120F;--accent:#F7C65D}}:root[data-theme="dark"]{--bg:#0E1420;--surface:#151D2B;--ink:#F5F7FA;--muted:#A6B0C3;--line:#293447;--brand:#FF7A45;--brand-ink:#16120F;--accent:#F7C65D}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="container top-in">
+    <a class="logo" href="#top" aria-label="Kharido home">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect x="3" y="3" width="22" height="22" rx="6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-dasharray="5 3.5"/><circle cx="14" cy="14" r="3.2" fill="currentColor"/></svg>
+      <span>Kharido</span>
+    </a>
+    <div class="search">
+      <label class="sr" for="q">Search pieces</label>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="q" type="search" placeholder="Search by piece, maker or city" autocomplete="off" data-input="search">
+    </div>
+    <button class="icon-btn" id="savedBtn" data-action="saved-toggle" aria-pressed="false" aria-label="Show saved pieces">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 018-3 4.6 4.6 0 018 3c0 5.8-8 11-8 11z"/></svg>
+      <span class="lab">Saved</span><span class="count" id="wishCount">0</span>
+    </button>
+    <button class="icon-btn" data-action="cart-open" aria-label="Open your bag">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
+      <span class="lab">Bag</span><span class="count" id="bagCount">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="container hero" aria-labelledby="h1">
+    <div>
+      <p style="display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--brand);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">Kharido <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block"></span> Crafted in India</p><h1 id="h1">Made by a named person. Priced in the open.</h1>
+      <p class="lead">Every Kharido piece is cut to order in a small Indian workshop. Choose a colour, add your initials, and see exactly where your money goes before you pay.</p>
+      <div class="hero-cta">
+        <a class="btn primary" href="#shop">Shop the collection</a>
+        <a class="btn" href="#match">Find my match</a>
+      </div>
+    </div>
+    <div class="hero-stage" id="heroStage"></div>
+  </section>
+
+  <section class="container promises" id="promises" aria-labelledby="ph">
+    <div class="sec-head">
+      <h2 id="ph">Six promises most stores won't make</h2>
+      <p>Each one is a working feature of this shop, not a slogan. Try them.</p>
+    </div>
+    <div class="pgrid">
+      <article class="promise">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l9-5 9 5v9l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v9"/></svg>
+        <h3>Open-box delivery</h3>
+        <p>Pay at the door, after you've checked the piece. If it isn't right, hand it back to the courier.</p>
+        <button class="link" data-action="promo-open" data-id="tote" data-tab="price" data-focus="pin">Check delivery to your pincode</button>
+      </article>
+      <article class="promise">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg>
+        <h3>Know your maker</h3>
+        <p>Every order gets a trace code that shows who made your piece, where, and each step along the way.</p>
+        <button class="link" data-action="goto" data-t="#trace">Trace a sample piece</button>
+      </article>
+      <article class="promise">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>
+        <h3>Open pricing</h3>
+        <p>See the split between materials, maker's pay, shipping, tax and our own margin on every product.</p>
+        <button class="link" data-action="promo-open" data-id="tote" data-tab="price">See a price breakdown</button>
+      </article>
+      <article class="promise">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 10-2.6 5.9"/><path d="M20 5v7h-7"/></svg>
+        <h3>Lifetime buy-back</h3>
+        <p>We'll take your piece back for store credit at a stated value, for as long as you own it.</p>
+        <button class="link" data-action="promo-open" data-id="messenger" data-tab="buyback">Estimate your credit</button>
+      </article>
+      <article class="promise">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+        <h3>Match guarantee</h3>
+        <p>Answer three questions and we'll suggest one piece. If it doesn't suit, exchange it free within 30 days.</p>
+        <button class="link" data-action="goto" data-t="#match">Take the quiz</button>
+      </article>
+      <article class="promise">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5L20 18M8.5 16.5L20 6"/></svg>
+        <h3>Cut after you order</h3>
+        <p>Nothing waits in a warehouse. Your leather is cut once you order, so colour and initials are yours.</p>
+        <button class="link" data-action="goto" data-t="#top">Personalise the tote above</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="container shop" id="shop" aria-labelledby="sh">
+    <div class="sec-head">
+      <h2 id="sh">The collection</h2>
+      <p id="shopCount" aria-live="polite"></p>
+    </div>
+    <div class="bar">
+      <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+      <label class="sort">Sort by
+        <select id="sort" data-change="sort">
+          <option value="featured">Featured</option>
+          <option value="low">Price, low to high</option>
+          <option value="high">Price, high to low</option>
+          <option value="fast">Ships soonest</option>
+          <option value="rated">Top rated</option>
+        </select>
+      </label>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="recent" id="recent" hidden></div>
+  </section>
+
+  <section class="container match" id="match" aria-labelledby="mh">
+    <div class="panel">
+      <div>
+        <h2 id="mh">Not sure what to pick? Find your match.</h2>
+        <p class="sub">Three questions, one recommendation, and a 30-day free exchange if it turns out to be the wrong fit.</p>
+      </div>
+      <div id="quiz" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="container trace" id="trace" aria-labelledby="th">
+    <div class="panel">
+      <div>
+        <h2 id="th">Trace a piece back to its maker</h2>
+        <p class="sub">Enter the trace code from your order confirmation. Orders placed in this demo show up here too.</p>
+        <form class="tform" data-form="trace">
+          <label class="sr" for="tcode">Trace code</label>
+          <input id="tcode" placeholder="KH-DEMO-1" autocomplete="off" spellcheck="false">
+          <button class="btn primary" type="submit">Trace</button>
+        </form>
+        <p class="note" style="margin-top:12px">Try the sample code <button class="link" data-action="trace-sample">KH-DEMO-1</button></p>
+      </div>
+      <div class="tres" id="tres" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>Kharido, made to order in India.</span>
+    <span>This is a demo storefront. Makers, prices and policies are sample content, and no orders or payments are processed.</span>
+  </div>
+</footer>
+
+<dialog id="pdlg" class="modal" aria-label="Product details"></dialog>
+<dialog id="cdlg" class="drawer" aria-label="Your bag"></dialog>
+<dialog id="kdlg" class="modal narrow" aria-label="Checkout"></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- helpers ---------- */
+  var INR = function (n) { return '\u20B9' + Math.round(n).toLocaleString('en-IN'); };
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var cleanMono = function (v) { return String(v || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 3); };
+  var h2r = function (h) { return [1, 3, 5].map(function (i) { return parseInt(h.slice(i, i + 2), 16); }); };
+  var r2h = function (a) { return '#' + a.map(function (v) { return Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0'); }).join(''); };
+  var mix = function (h, to, t) { var a = h2r(h), b = h2r(to); return r2h(a.map(function (v, i) { return v + (b[i] - v) * t; })); };
+  var shade = function (h, t) { return t < 0 ? mix(h, '#000000', -t) : mix(h, '#ffffff', t); };
+  var lum = function (h) { var c = h2r(h).map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+
+  /* ---------- data (sample content) ---------- */
+  var COLORS = { 'Tan': '#B9783F', 'Oxblood': '#6B2230', 'Ink blue': '#27336B', 'Olive': '#5F6B3B', 'Charcoal': '#363A44', 'Sand': '#CDB894' };
+  var MONO_FEE = 150;
+  var PRODUCTS = [
+    { id: 'tote', name: 'Nilgiri tote', cat: 'Bags', type: 'tote', price: 4490, colors: ['Tan', 'Oxblood', 'Ink blue', 'Olive'], dims: [38, 34, 12], lead: [5, 7], rating: 4.8, reviews: 212, m: 0.29, l: 0.32, ship: 110,
+      tags: ['tote', 'work', 'everyday', 'shoulder'], material: 'Full-grain vegetable-tanned buffalo leather, cotton-twill lining', care: 'Wipe with a dry cloth. Condition twice a year. Keep away from direct heat.',
+      desc: 'An open-top shoulder tote that holds a 14 inch laptop, a book and a lunch box without losing its shape. The straps are riveted and stitched twice.',
+      features: ['Fits a 14 inch laptop and A4 folders', 'Inside zip pocket and phone sleeve', 'Straps riveted and double stitched'],
+      maker: { name: 'Salma Khatun', city: 'Kanpur', years: 11, note: 'I cut every panel along the grain before anything else. That one habit decides how a bag ages.' } },
+    { id: 'market', name: 'Haat market tote', cat: 'Bags', type: 'tote', price: 5290, colors: ['Sand', 'Olive', 'Charcoal'], dims: [45, 38, 14], lead: [6, 8], rating: 4.7, reviews: 98, m: 0.31, l: 0.31, ship: 130,
+      tags: ['tote', 'large', 'weekend', 'shopping'], material: 'Full-grain leather with waxed canvas base panel', care: 'Spot clean the canvas base. Condition the leather twice a year.',
+      desc: 'A larger tote built for the weekend market run, with a reinforced base that stands up on its own when loaded.',
+      features: ['Stands upright when full', 'Waxed canvas base sheds spills', 'Fits a yoga mat on the side strap'],
+      maker: { name: 'Dinesh Rathore', city: 'Jaipur', years: 15, note: 'The base takes the most abuse, so I stitch it last and slowest.' } },
+    { id: 'messenger', name: 'Marwar messenger', cat: 'Bags', type: 'sling', price: 5990, colors: ['Charcoal', 'Tan', 'Oxblood'], dims: [32, 22, 9], lead: [6, 8], rating: 4.9, reviews: 164, m: 0.3, l: 0.33, ship: 110,
+      tags: ['messenger', 'crossbody', 'commute', 'laptop'], material: 'Full-grain leather, solid brass buckle, brushed cotton lining', care: 'Brass will darken with age. Polish only if you prefer it bright.',
+      desc: 'A crossbody messenger with a deep flap, a brass buckle and an adjustable strap. It carries a tablet and daily essentials comfortably.',
+      features: ['Adjustable strap from 80 to 130 cm', 'Solid brass buckle, replaceable', 'Padded back pocket for a tablet'],
+      maker: { name: 'Imran Qureshi', city: 'Jodhpur', years: 14, note: 'Brass is cast, not plated. It goes dull and then it goes beautiful.' } },
+    { id: 'courier', name: 'Pavan courier sling', cat: 'Bags', type: 'sling', price: 3990, colors: ['Ink blue', 'Tan', 'Olive'], dims: [26, 18, 6], lead: [4, 6], rating: 4.6, reviews: 131, m: 0.28, l: 0.33, ship: 90,
+      tags: ['sling', 'bike', 'compact', 'crossbody'], material: 'Full-grain leather, nylon webbing strap, cotton lining', care: 'Wipe clean. Air dry if it gets wet.',
+      desc: 'A slim sling for phone, wallet, keys and a small bottle. The strap stays put on a bike or in a crowded metro.',
+      features: ['Strap grips without twisting', 'Quick-release buckle', 'Weighs under 400 g'],
+      maker: { name: 'Ananya Nair', city: 'Kochi', years: 6, note: 'I test every strap by cycling to work with it before it ships.' } },
+    { id: 'wallet', name: 'Ledger card wallet', cat: 'Wallets & travel', type: 'wallet', price: 1490, colors: ['Tan', 'Charcoal', 'Oxblood', 'Ink blue'], dims: [10, 7.5, 1], lead: [3, 5], rating: 4.8, reviews: 340, m: 0.26, l: 0.32, ship: 70,
+      tags: ['wallet', 'cards', 'slim', 'gift'], material: 'Full-grain leather, waxed linen thread', care: 'Do not overfill. It will stretch to fit 8 cards.',
+      desc: 'Six card slots and a centre pocket for folded notes, in a wallet that is under a centimetre thick when full.',
+      features: ['Holds 6 to 8 cards plus notes', 'Edges burnished by hand', 'Fits a front pocket'],
+      maker: { name: 'Lakshmi Devi', city: 'Chennai', years: 9, note: 'I burnish each edge until it feels like glass. It takes about six minutes per wallet.' } },
+    { id: 'passport', name: 'Voyager passport cover', cat: 'Wallets & travel', type: 'passport', price: 1890, colors: ['Oxblood', 'Ink blue', 'Tan'], dims: [10, 14.5, 1.2], lead: [3, 5], rating: 4.7, reviews: 187, m: 0.27, l: 0.31, ship: 70,
+      tags: ['passport', 'travel', 'documents', 'gift'], material: 'Full-grain leather, soft suede lining', care: 'Keep dry. A little leather balm once a year is enough.',
+      desc: 'Holds a passport, two boarding passes and a few cards. The cover softens with every trip and takes on its own character.',
+      features: ['Passport plus 3 card slots', 'Boarding pass pocket', 'RFID-safe lining option on request'],
+      maker: { name: 'Rafiq Ansari', city: 'Kolkata', years: 17, note: 'Travel leather should look lived in. I only make the first mark, you make the rest.' } },
+    { id: 'sleeve', name: 'Slate laptop sleeve, 14 inch', cat: 'Work & desk', type: 'sleeve', price: 3290, colors: ['Charcoal', 'Ink blue', 'Sand'], dims: [35, 25, 2], lead: [4, 6], rating: 4.6, reviews: 109, m: 0.3, l: 0.3, ship: 90,
+      tags: ['laptop', 'sleeve', 'work', '14 inch'], material: 'Full-grain leather, wool felt lining, YKK zip', care: 'Wipe with a damp cloth. Do not machine wash.',
+      desc: 'A close-fitting sleeve with a soft felt interior and a side zip that opens wide enough to slide a laptop in without scratching it.',
+      features: ['Fits most 14 inch laptops', 'Wool felt lining', 'Extra slim pocket for a charger'],
+      maker: { name: 'Meena Pawar', city: 'Kolhapur', years: 8, note: 'I measure against real laptops, not spec sheets. Specs lie by a few millimetres.' } },
+    { id: 'mat', name: 'Longhand desk mat', cat: 'Work & desk', type: 'mat', price: 2490, colors: ['Tan', 'Charcoal', 'Sand', 'Olive'], dims: [70, 30, 0.3], lead: [4, 6], rating: 4.8, reviews: 76, m: 0.28, l: 0.3, ship: 120,
+      tags: ['desk', 'mat', 'keyboard', 'office'], material: 'Full-grain leather on a non-slip felt base', care: 'Wipe with a dry cloth. Rotate it now and then for even ageing.',
+      desc: 'A leather desk mat large enough for a keyboard and mouse, with a felt base that keeps it from sliding on any surface.',
+      features: ['70 by 30 cm, fits a full keyboard', 'Felt base grips the desk', 'Stitched edge will not peel'],
+      maker: { name: 'Joseph D\u2019Souza', city: 'Vasai', years: 12, note: 'A desk mat is a canvas. I leave the surface plain so it can collect your marks.' } }
+  ];
+  var P = function (id) { return PRODUCTS.filter(function (p) { return p.id === id; })[0]; };
+  var CATS = ['All', 'Bags', 'Wallets & travel', 'Work & desk'];
+  var PROMOS = {
+    FIRST10: { label: '10% off', calc: function (s) { return Math.round(s * 0.1); }, need: 0 },
+    MAKER500: { label: '\u20B9500 off orders above \u20B94,000', calc: function (s) { return s >= 4000 ? 500 : 0; }, need: 4000 }
+  };
+  var FREE_SHIP = 2999, SHIP_FEE = 99;
+  var SHIP_DAYS = { 1: 3, 2: 4, 3: 4, 4: 3, 5: 3, 6: 4, 7: 5, 8: 5 };
+
+  /* ---------- state ---------- */
+  var KEY = 'kharido-store-v1';
+  var S = { cat: 'All', sort: 'featured', q: '', saved: false, cart: [], wish: [], recent: [], orders: [], promo: null, cardColor: {}, hero: { color: 'Tan', mono: '' }, quiz: { step: 0, ans: [] } };
+  var pm = null;
+
+  function load() {
+    try {
+      var d = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (d) { ['cart', 'wish', 'recent', 'orders'].forEach(function (k) { if (Array.isArray(d[k])) S[k] = d[k]; }); S.promo = d.promo || null; }
+    } catch (e) { /* storage unavailable */ }
+    S.cart = S.cart.filter(function (i) { return P(i.id) && COLORS[i.color]; });
+    if (S.promo && !PROMOS[S.promo]) S.promo = null;
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ cart: S.cart, wish: S.wish, recent: S.recent, orders: S.orders, promo: S.promo })); } catch (e) { /* ignore */ }
+  }
+
+  /* ---------- product artwork (inline SVG) ---------- */
+  var artId = 0;
+  function art(type, hex, mono, label) {
+    var d = shade(hex, -0.28), l = shade(hex, 0.16), st = shade(hex, 0.45);
+    var ink = lum(hex) > 0.4 ? shade(hex, -0.55) : shade(hex, 0.72);
+    var gold = '#C9A24B';
+    var mk = function (x, y, size, anchor) {
+      return mono ? '<text x="' + x + '" y="' + y + '" text-anchor="' + (anchor || 'middle') + '" font-family="Bricolage Grotesque, Segoe UI, sans-serif" font-weight="700" font-size="' + size + '" letter-spacing="' + Math.round(size / 8) + '" fill="' + ink + '" opacity=".92">' + esc(mono) + '</text>' : '';
+    };
+    var shadow = '<ellipse cx="200" cy="372" rx="132" ry="9" fill="#000" opacity=".13"/>';
+    var body = '';
+    if (type === 'tote') {
+      body = '<path d="M140 138C138 36 262 36 260 138" fill="none" stroke="' + d + '" stroke-width="11" stroke-linecap="round"/>' +
+        '<path d="M92 132H308L332 346Q333 360 318 360H82Q67 360 68 346Z" fill="' + hex + '"/>' +
+        '<path d="M92 132H308L311 162H89Z" fill="' + d + '" opacity=".5"/>' +
+        '<path d="M90 170H310" stroke="' + st + '" stroke-width="2.2" stroke-dasharray="7 5" fill="none"/>' +
+        '<circle cx="140" cy="146" r="6" fill="' + gold + '"/><circle cx="260" cy="146" r="6" fill="' + gold + '"/>' +
+        '<path d="M80 340L98 184M320 340L302 184" stroke="' + st + '" stroke-width="2" stroke-dasharray="6 5" fill="none"/>' + mk(200, 278, 54);
+    } else if (type === 'sling') {
+      body = '<path d="M104 160C100 38 300 38 296 160" fill="none" stroke="' + d + '" stroke-width="14" stroke-linecap="round"/>' +
+        '<rect x="76" y="150" width="248" height="190" rx="24" fill="' + hex + '"/>' +
+        '<path d="M76 176Q76 150 102 150H298Q324 150 324 176V232Q200 276 76 232Z" fill="' + l + '"/>' +
+        '<path d="M92 168H308V226Q200 262 92 226Z" fill="none" stroke="' + st + '" stroke-width="2.2" stroke-dasharray="7 5"/>' +
+        '<rect x="186" y="244" width="28" height="34" rx="5" fill="none" stroke="' + gold + '" stroke-width="5"/>' + mk(200, 318, 30);
+    } else if (type === 'wallet') {
+      body = '<rect x="100" y="130" width="200" height="150" rx="16" fill="' + d + '"/>' +
+        '<rect x="126" y="104" width="76" height="70" rx="6" fill="#DDE2EE"/><rect x="164" y="92" width="76" height="82" rx="6" fill="#F4F5F9"/><rect x="164" y="104" width="76" height="12" fill="#B9C0D4"/><rect x="204" y="112" width="74" height="62" rx="6" fill="#E3A21A"/>' +
+        '<path d="M100 176H300V264Q300 280 284 280H116Q100 280 100 264Z" fill="' + hex + '"/>' +
+        '<rect x="112" y="188" width="176" height="80" rx="8" fill="none" stroke="' + st + '" stroke-width="2.2" stroke-dasharray="7 5"/>' + mk(200, 240, 28);
+    } else if (type === 'passport') {
+      body = '<rect x="116" y="60" width="168" height="272" rx="14" fill="' + hex + '"/>' +
+        '<path d="M142 60V332" stroke="' + d + '" stroke-width="3"/>' +
+        '<rect x="154" y="78" width="116" height="236" rx="8" fill="none" stroke="' + st + '" stroke-width="2.2" stroke-dasharray="7 5"/>' +
+        '<circle cx="212" cy="150" r="36" fill="none" stroke="' + ink + '" stroke-width="2" opacity=".5"/>' +
+        (mono ? mk(212, 161, 30) : '<ellipse cx="212" cy="150" rx="15" ry="36" fill="none" stroke="' + ink + '" stroke-width="2" opacity=".4"/><path d="M176 150H248" stroke="' + ink + '" stroke-width="2" opacity=".4"/>') +
+        '<text x="212" y="262" text-anchor="middle" font-family="Bricolage Grotesque, Segoe UI, sans-serif" font-size="17" letter-spacing="3" fill="' + ink + '" opacity=".6">Passport</text>';
+    } else if (type === 'sleeve') {
+      body = '<rect x="64" y="110" width="272" height="220" rx="18" fill="' + hex + '"/>' +
+        '<path d="M64 128Q64 110 82 110H318Q336 110 336 128V136H64Z" fill="#8A8F9E"/>' +
+        '<path d="M64 156H336" stroke="' + d + '" stroke-width="3"/><path d="M70 156H330" stroke="' + st + '" stroke-width="3" stroke-dasharray="2 3" opacity=".8"/>' +
+        '<rect x="288" y="144" width="14" height="24" rx="4" fill="' + gold + '"/>' +
+        '<rect x="78" y="176" width="244" height="140" rx="10" fill="none" stroke="' + st + '" stroke-width="2.2" stroke-dasharray="7 5"/>' + mk(200, 262, 46);
+    } else {
+      body = '<rect x="36" y="150" width="328" height="150" rx="12" fill="' + hex + '"/>' +
+        '<rect x="48" y="162" width="304" height="126" rx="6" fill="none" stroke="' + st + '" stroke-width="2.2" stroke-dasharray="7 5"/>' +
+        '<rect x="72" y="112" width="150" height="11" rx="5.5" fill="' + gold + '" transform="rotate(-7 147 117)"/>' + mk(332, 276, 28, 'end');
+    }
+    return '<svg viewBox="0 0 400 400" role="img" aria-label="' + esc(label || 'Product illustration') + '">' + shadow + body + '</svg>';
+  }
+  function detailArt(hex, mono) {
+    var id = 'g' + (++artId), d = shade(hex, -0.3), st = shade(hex, 0.5);
+    var ink = lum(hex) > 0.4 ? shade(hex, -0.6) : shade(hex, 0.75);
+    var t = esc(mono || 'K');
+    return '<svg viewBox="0 0 400 400" role="img" aria-label="Close-up of stitching and stamped initials"><defs><filter id="' + id + '" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 -.12"/><feComposite in2="SourceGraphic" operator="in"/></filter></defs>' +
+      '<rect width="400" height="400" fill="' + hex + '"/><rect width="400" height="400" fill="#000" filter="url(#' + id + ')"/>' +
+      '<rect y="196" width="400" height="10" fill="' + d + '" opacity=".7"/><rect y="206" width="400" height="3" fill="#fff" opacity=".15"/>' +
+      '<path d="M-10 168H410" stroke="' + st + '" stroke-width="6" stroke-linecap="round" stroke-dasharray="26 14"/>' +
+      '<path d="M-10 236H410" stroke="' + st + '" stroke-width="6" stroke-linecap="round" stroke-dasharray="26 14"/>' +
+      '<text x="200" y="346" text-anchor="middle" font-family="Bricolage Grotesque, Segoe UI, sans-serif" font-weight="800" font-size="96" letter-spacing="10" fill="#fff" opacity=".22" transform="translate(2 3)">' + t + '</text>' +
+      '<text x="200" y="346" text-anchor="middle" font-family="Bricolage Grotesque, Segoe UI, sans-serif" font-weight="800" font-size="96" letter-spacing="10" fill="' + d + '" opacity=".75">' + t + '</text>' +
+      '<text x="24" y="60" font-family="Bricolage Grotesque, Segoe UI, sans-serif" font-size="20" font-weight="600" fill="' + ink + '">Full-grain leather, 1.6 mm</text>' +
+      '<text x="24" y="88" font-family="Bricolage Grotesque, Segoe UI, sans-serif" font-size="20" fill="' + ink + '" opacity=".85">Waxed thread, 7 stitches per inch</text></svg>';
+  }
+  function scaleArt(p, hex) {
+    var w = p.dims[0], h = p.dims[1], gap = 5, A4w = 21, A4h = 29.7;
+    var tw = w + gap + A4w, mh = Math.max(h, A4h);
+    var s = Math.min(340 / tw, 270 / mh), ox = (400 - tw * s) / 2, base = 332;
+    var d = shade(hex, -0.28), st = shade(hex, 0.45);
+    return '<svg viewBox="0 0 400 400" role="img" aria-label="Size next to an A4 sheet">' +
+      '<rect x="' + (ox + (w + gap) * s).toFixed(1) + '" y="' + (base - A4h * s).toFixed(1) + '" width="' + (A4w * s).toFixed(1) + '" height="' + (A4h * s).toFixed(1) + '" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="6 5" opacity=".6"/>' +
+      '<text x="' + (ox + (w + gap + A4w / 2) * s).toFixed(1) + '" y="' + (base - A4h * s / 2).toFixed(1) + '" text-anchor="middle" font-size="16" fill="currentColor" opacity=".6" font-family="Bricolage Grotesque, Segoe UI, sans-serif">A4 sheet</text>' +
+      '<rect x="' + ox.toFixed(1) + '" y="' + (base - h * s).toFixed(1) + '" width="' + (w * s).toFixed(1) + '" height="' + (h * s).toFixed(1) + '" rx="' + Math.min(14, w * s * 0.08).toFixed(1) + '" fill="' + hex + '"/>' +
+      '<rect x="' + (ox + 5).toFixed(1) + '" y="' + (base - h * s + 5).toFixed(1) + '" width="' + Math.max(0, w * s - 10).toFixed(1) + '" height="' + Math.max(0, h * s - 10).toFixed(1) + '" rx="' + Math.min(10, w * s * 0.06).toFixed(1) + '" fill="none" stroke="' + st + '" stroke-width="1.6" stroke-dasharray="5 4"/>' +
+      '<text x="200" y="372" text-anchor="middle" font-size="19" font-weight="600" fill="currentColor" font-family="Bricolage Grotesque, Segoe UI, sans-serif">' + w + ' \u00D7 ' + h + ' cm' + (p.dims[2] > 1 ? ', ' + p.dims[2] + ' cm deep' : '') + '</text></svg>';
+  }
+
+  /* ---------- pricing ---------- */
+  function breakdown(p) {
+    var pre = p.price / 1.12, gst = Math.round(p.price - pre);
+    var mat = Math.round(pre * p.m), lab = Math.round(pre * p.l), ovh = Math.round(pre * 0.09), ship = p.ship;
+    var margin = p.price - gst - mat - lab - ovh - ship;
+    return [
+      { k: 'Leather and materials', v: mat, c: 'var(--s1)' },
+      { k: 'Maker\u2019s pay', v: lab, c: 'var(--s2)' },
+      { k: 'Workshop costs', v: ovh, c: 'var(--s3)' },
+      { k: 'Packing and shipping', v: ship, c: 'var(--s4)' },
+      { k: 'GST (12% sample rate)', v: gst, c: 'var(--s5)' },
+      { k: 'Kharido margin', v: margin, c: 'var(--s6)' }
+    ];
+  }
+  var buybackPct = function (years) { return Math.max(0.12, 0.62 - 0.055 * (years - 1)); };
+  var unit = function (i) { return P(i.id).price + (i.mono ? MONO_FEE : 0); };
+  function totals() {
+    var sub = S.cart.reduce(function (a, i) { return a + unit(i) * i.qty; }, 0);
+    var disc = S.promo ? PROMOS[S.promo].calc(sub) : 0;
+    var after = sub - disc;
+    var ship = S.cart.length === 0 ? 0 : (after >= FREE_SHIP ? 0 : SHIP_FEE);
+    return { sub: sub, disc: disc, ship: ship, total: after + ship, after: after };
+  }
+  function addDays(n) { var d = new Date(); d.setDate(d.getDate() + n); return d; }
+  var fmtD = function (d) { return d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }); };
+  function etaText(lo, hi, pin) {
+    if (!/^\d{6}$/.test(pin) || !SHIP_DAYS[pin[0]]) return null;
+    var s = SHIP_DAYS[pin[0]];
+    return fmtD(addDays(lo + s)) + ' to ' + fmtD(addDays(hi + s));
+  }
+
+  /* ---------- UI utils ---------- */
+  var toastT;
+  function toast(msg) {
+    var t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove('show'); }, 2400);
+  }
+  function openDlg(el) { if (!el.open) el.showModal(); document.body.classList.add('locked'); }
+  function closeDlg(el) { if (el.open) el.close(); }
+  $$('dialog').forEach(function (dg) {
+    dg.addEventListener('close', function () { if (!$('dialog[open]')) document.body.classList.remove('locked'); });
+    dg.addEventListener('click', function (e) { if (e.target === dg) dg.close(); });
+  });
+  var xBtn = '<button class="x" data-action="close" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>';
+  var heartSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 018-3 4.6 4.6 0 018 3c0 5.8-8 11-8 11z"/></svg>';
+  function swatchBtns(colors, active, action, extra) {
+    return colors.map(function (c, i) {
+      return '<button class="sw" style="--sw:' + COLORS[c] + '" data-action="' + action + '" data-n="' + esc(c) + '" ' + (extra || '') + ' aria-pressed="' + (c === active) + '" aria-label="' + esc(c) + '"></button>';
+    }).join('');
+  }
+  function updateBadges() {
+    $('#bagCount').textContent = S.cart.reduce(function (a, i) { return a + i.qty; }, 0);
+    $('#wishCount').textContent = S.wish.length;
+    var sb = $('#savedBtn'); sb.setAttribute('aria-pressed', String(S.saved));
+  }
+
+  /* ---------- hero ---------- */
+  function renderHero() {
+    var p = P('tote');
+    $('#heroStage').innerHTML =
+      '<div class="stage" id="heroSt"><div id="heroArt"></div></div>' +
+      '<div class="hero-ctl"><span class="nm">' + esc(p.name) + ', ' + INR(p.price) + '</span>' +
+      '<div class="swatches" id="heroSw" role="group" aria-label="Colour">' + swatchBtns(p.colors, S.hero.color, 'hcolor') + '</div>' +
+      '<div class="field-inline"><label for="hmono">Your initials</label><input class="mono-in" id="hmono" maxlength="3" placeholder="AK" autocomplete="off" data-input="hmono" value="' + esc(S.hero.mono) + '"></div>' +
+      '<button class="btn small primary" data-action="hero-open">See this piece</button></div>';
+    paintHero();
+  }
+  function paintHero() {
+    var hex = COLORS[S.hero.color];
+    $('#heroSt').style.setProperty('--c', hex);
+    $('#heroArt').innerHTML = art('tote', hex, S.hero.mono, 'Nilgiri tote in ' + S.hero.color);
+    $$('#heroSw .sw').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.n === S.hero.color)); });
+  }
+
+  /* ---------- shop grid ---------- */
+  function visible() {
+    var words = S.q.toLowerCase().split(/\s+/).filter(Boolean);
+    var list = PRODUCTS.filter(function (p) {
+      if (S.cat !== 'All' && p.cat !== S.cat) return false;
+      if (S.saved && S.wish.indexOf(p.id) < 0) return false;
+      if (words.length) {
+        var hay = (p.name + ' ' + p.cat + ' ' + p.maker.name + ' ' + p.maker.city + ' ' + p.tags.join(' ')).toLowerCase();
+        if (!words.every(function (w) { return hay.indexOf(w) >= 0; })) return false;
+      }
+      return true;
+    });
+    var cmp = { low: function (a, b) { return a.price - b.price; }, high: function (a, b) { return b.price - a.price; }, fast: function (a, b) { return a.lead[0] - b.lead[0] || a.price - b.price; }, rated: function (a, b) { return b.rating - a.rating; } }[S.sort];
+    if (cmp) list = list.slice().sort(cmp);
+    return list;
+  }
+  function renderShop() {
+    $('#chips').innerHTML = CATS.map(function (c) { return '<button class="chip" data-action="cat" data-v="' + esc(c) + '" aria-pressed="' + (S.cat === c) + '">' + esc(c) + '</button>'; }).join('');
+    var list = visible();
+    $('#shopCount').textContent = list.length + (list.length === 1 ? ' piece' : ' pieces') + (S.saved ? ' in your saved list' : '') + ', all made to order.';
+    if (!list.length) {
+      $('#grid').innerHTML = '<div class="empty"><p>' + (S.saved && !S.wish.length ? 'You haven\u2019t saved anything yet. Tap the heart on a piece to keep it here.' : 'No pieces match those filters.') + '</p><button class="btn small" data-action="clear">Clear filters</button></div>';
+    } else {
+      $('#grid').innerHTML = list.map(function (p) {
+        var color = S.cardColor[p.id] || p.colors[0], hex = COLORS[color], on = S.wish.indexOf(p.id) >= 0;
+        return '<article class="card">' +
+          '<button class="card-media" style="--c:' + hex + '" data-action="open" data-id="' + p.id + '" aria-label="View ' + esc(p.name) + '">' + art(p.type, hex, '', p.name + ' in ' + color) + '</button>' +
+          '<button class="heart ' + (on ? 'on' : '') + '" data-action="wish" data-id="' + p.id + '" aria-pressed="' + on + '" aria-label="' + (on ? 'Remove ' : 'Save ') + esc(p.name) + (on ? ' from saved' : ' for later') + '">' + heartSvg + '</button>' +
+          '<div><div class="card-top"><h3><button data-action="open" data-id="' + p.id + '">' + esc(p.name) + '</button></h3><span class="price">' + INR(p.price) + '</span></div>' +
+          '<p class="by">Made by ' + esc(p.maker.name) + ', ' + esc(p.maker.city) + '</p></div>' +
+          '<div class="card-foot"><div class="dots" role="group" aria-label="Colour">' + p.colors.map(function (c) { return '<button class="sw" style="--sw:' + COLORS[c] + '" data-action="cardcolor" data-id="' + p.id + '" data-n="' + esc(c) + '" aria-pressed="' + (c === color) + '" aria-label="' + esc(c) + '"></button>'; }).join('') + '</div><span class="lead-t">Ships in ' + p.lead[0] + ' to ' + p.lead[1] + ' days</span></div>' +
+          '<button class="btn small" data-action="quickadd" data-id="' + p.id + '">Add to bag</button></article>';
+      }).join('');
+    }
+    var rv = S.recent.map(P).filter(Boolean);
+    var box = $('#recent');
+    if (rv.length) {
+      box.hidden = false;
+      box.innerHTML = '<h3>Recently viewed</h3>' + rv.map(function (p) { var hex = COLORS[S.cardColor[p.id] || p.colors[0]]; return '<button class="rv" data-action="open" data-id="' + p.id + '"><span class="th" style="--c:' + hex + '">' + art(p.type, hex, '', '') + '</span>' + esc(p.name) + '</button>'; }).join('');
+    } else box.hidden = true;
+    updateBadges();
+  }
+
+  /* ---------- product dialog ---------- */
+  function openProduct(id, o) {
+    o = o || {};
+    var p = P(id);
+    var color = o.color || S.cardColor[id] || p.colors[0];
+    pm = { id: id, color: color, mono: cleanMono(o.mono), view: 'front', qty: 1, tab: o.tab || 'price', pin: '' };
+    S.recent = [id].concat(S.recent.filter(function (x) { return x !== id; })).slice(0, 4);
+    save(); renderShop(); renderPm(); openDlg($('#pdlg'));
+    if (o.focus === 'pin') setTimeout(function () { var i = $('#pmPin'); if (i) i.focus(); }, 50);
+  }
+  function pmStage() {
+    var p = P(pm.id), hex = COLORS[pm.color];
+    var html = pm.view === 'front' ? art(p.type, hex, pm.mono, p.name + ' in ' + pm.color) : pm.view === 'detail' ? detailArt(hex, pm.mono) : scaleArt(p, hex);
+    $('#pmStage').style.setProperty('--c', hex);
+    $('#pmArt').innerHTML = html;
+    $$('#pmViews button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === pm.view)); });
+    $$('#pmSw .sw').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.n === pm.color)); });
+    $('#pmColorName').textContent = pm.color;
+    var each = p.price + (pm.mono ? MONO_FEE : 0);
+    $('#pmPrice').innerHTML = INR(each) + (pm.mono ? ' <small>includes ' + INR(MONO_FEE) + ' for stamped initials</small>' : ' <small>inclusive of GST</small>');
+    $('#pmAdd').textContent = 'Add to bag, ' + INR(each * pm.qty);
+    $('#pmQty').textContent = pm.qty;
+  }
+  function pmPanel() {
+    var p = P(pm.id), h = '';
+    $$('#pmTabs button').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.v === pm.tab)); });
+    if (pm.tab === 'price') {
+      var rows = breakdown(p);
+      h = '<p>Here is where the ' + INR(p.price) + ' goes. Our margin is the last line, nothing is hidden inside the others.</p>' +
+        '<div class="stack" role="img" aria-label="Price split">' + rows.map(function (r) { return '<i style="width:' + (r.v / p.price * 100).toFixed(2) + '%;background:' + r.c + '"></i>'; }).join('') + '</div>' +
+        '<ul class="legend">' + rows.map(function (r) { return '<li><span class="dot" style="background:' + r.c + '"></span><span>' + r.k + '</span><span class="amt">' + INR(r.v) + '</span><span class="pct">' + (r.v / p.price * 100).toFixed(0) + '%</span></li>'; }).join('') + '</ul>';
+    } else if (pm.tab === 'maker') {
+      var m = p.maker;
+      h = '<dl class="kv"><dt>Made by</dt><dd>' + esc(m.name) + '</dd><dt>Workshop</dt><dd>' + esc(m.city) + '</dd><dt>Experience</dt><dd>' + m.years + ' years in leatherwork</dd><dt>Lead time</dt><dd>' + p.lead[0] + ' to ' + p.lead[1] + ' days, cut after you order</dd></dl>' +
+        '<p>\u201C' + esc(m.note) + '\u201D</p><p>After you order, you get a trace code that shows each step of the build, from cutting to the courier pickup.</p>' +
+        '<button class="link" data-action="goto-trace" style="justify-self:start">Trace a sample piece</button>';
+    } else if (pm.tab === 'buyback') {
+      h = '<p>Own it for as long as you like. When you\u2019re ready for something new, we\u2019ll take it back for store credit.</p>' +
+        '<div class="bb-row"><label for="bbY"><b>Years owned: <span id="bbYv">3</span></b></label><label>Condition <select id="bbC" data-input="bb"><option value="1">Like new</option><option value="0.85" selected>Well used</option><option value="0.65">Heavily worn</option></select></label></div>' +
+        '<input class="range" id="bbY" type="range" min="1" max="10" value="3" data-input="bb" aria-label="Years owned">' +
+        '<div class="bb-out" aria-live="polite"><span>Store credit we\u2019d offer</span><strong id="bbOut"></strong><span class="msg" id="bbNote"></span></div>' +
+        '<p class="note">Sample terms for this demo. Credit can be used on any new Kharido piece.</p>';
+    } else {
+      h = '<dl class="kv"><dt>Material</dt><dd>' + esc(p.material) + '</dd><dt>Size</dt><dd>' + p.dims[0] + ' \u00D7 ' + p.dims[1] + ' cm</dd><dt>Care</dt><dd>' + esc(p.care) + '</dd></dl>' +
+        '<ul class="ticks">' + p.features.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>';
+    }
+    $('#pmPanel').innerHTML = h;
+    if (pm.tab === 'buyback') updateBuyback();
+  }
+  function updateBuyback() {
+    var p = P(pm.id), y = +$('#bbY').value, c = +$('#bbC').value;
+    var pct = buybackPct(y) * c, val = Math.round(p.price * pct / 10) * 10;
+    $('#bbYv').textContent = y; $('#bbOut').textContent = INR(val);
+    $('#bbNote').textContent = 'About ' + Math.round(pct * 100) + '% of today\u2019s price of ' + INR(p.price) + '.';
+  }
+  function renderPm() {
+    var p = P(pm.id);
+    $('#pdlg').innerHTML =
+      '<div class="pm">' + xBtn +
+      '<div class="pm-left"><div class="stage" id="pmStage"><div id="pmArt" style="width:100%;height:100%;display:grid;place-items:center"></div></div>' +
+      '<div class="views" id="pmViews" role="group" aria-label="Views"><button data-action="pmview" data-v="front" aria-pressed="true">Front</button><button data-action="pmview" data-v="detail" aria-pressed="false">Close-up</button><button data-action="pmview" data-v="scale" aria-pressed="false">Size</button></div></div>' +
+      '<div class="pm-right"><div><h2>' + esc(p.name) + '</h2><p class="rating"><b>\u2605</b> ' + p.rating + ' from ' + p.reviews + ' reviews. Made by ' + esc(p.maker.name) + ', ' + esc(p.maker.city) + '.</p></div>' +
+      '<div class="big-price" id="pmPrice"></div><p>' + esc(p.desc) + '</p>' +
+      '<div><span class="lbl">Colour: <span id="pmColorName"></span></span><div class="swatches" id="pmSw" role="group" aria-label="Colour">' + swatchBtns(p.colors, pm.color, 'pmcolor') + '</div></div>' +
+      '<div class="field-inline" style="flex-wrap:wrap"><label for="pmMono" class="lbl" style="margin:0">Initials <span>(optional, +' + INR(MONO_FEE) + ')</span></label><input class="mono-in" id="pmMono" maxlength="3" placeholder="AK" autocomplete="off" data-input="pmmono" value="' + esc(pm.mono) + '"></div>' +
+      '<div class="buyrow"><div class="stepper"><button data-action="pmqty" data-d="-1" aria-label="Fewer">\u2212</button><output id="pmQty" aria-live="polite">1</output><button data-action="pmqty" data-d="1" aria-label="More">+</button></div><button class="btn primary" id="pmAdd" data-action="pmadd" style="flex:1"></button></div>' +
+      '<div><span class="lbl">Delivery estimate</span><div class="pin"><input id="pmPin" inputmode="numeric" maxlength="6" placeholder="Pincode" aria-label="Pincode" data-input="pin"><button class="btn small" data-action="pincheck">Check</button></div><p class="eta" id="pmEta" aria-live="polite">Enter a pincode to see delivery dates and open-box availability.</p></div>' +
+      '<div><div class="tabs" id="pmTabs" role="tablist"><button role="tab" data-action="pmtab" data-v="price" aria-selected="true">Price breakdown</button><button role="tab" data-action="pmtab" data-v="maker" aria-selected="false">Your maker</button><button role="tab" data-action="pmtab" data-v="buyback" aria-selected="false">Buy-back</button><button role="tab" data-action="pmtab" data-v="details" aria-selected="false">Details</button></div><div class="tabp" id="pmPanel" role="tabpanel"></div></div>' +
+      '</div></div>';
+    pmStage(); pmPanel();
+  }
+  function checkPin() {
+    var p = P(pm.id), pin = $('#pmPin').value.trim(), out = $('#pmEta');
+    var e = etaText(p.lead[0], p.lead[1], pin);
+    out.innerHTML = e ? 'Arrives <strong>' + e + '</strong>. Open-box delivery is available, so you can pay after you\u2019ve checked it.' : 'We couldn\u2019t match that pincode. Enter a valid 6-digit pincode.';
+  }
+
+  /* ---------- cart ---------- */
+  function addToCart(id, color, mono, qty) {
+    var key = [id, color, mono].join('|'), ex = S.cart.filter(function (i) { return i.key === key; })[0];
+    if (ex) ex.qty = Math.min(9, ex.qty + qty); else S.cart.push({ key: key, id: id, color: color, mono: mono, qty: qty });
+    save(); updateBadges(); toast(P(id).name + ' added to your bag');
+  }
+  function renderCart() {
+    var t = totals(), n = S.cart.reduce(function (a, i) { return a + i.qty; }, 0), body = '', foot = '';
+    if (!S.cart.length) {
+      body = '<div class="empty" style="margin-top:20px"><p>Your bag is empty. Pick a piece and it will wait here.</p><button class="btn small" data-action="cart-browse">Browse the collection</button></div>';
+    } else {
+      var left = Math.max(0, FREE_SHIP - t.after);
+      body = '<div><p class="msg" style="margin-bottom:6px">' + (left > 0 ? 'Add ' + INR(left) + ' more for free shipping.' : 'You\u2019ve unlocked free shipping.') + '</p><div class="ship-bar"><i style="width:' + Math.min(100, t.after / FREE_SHIP * 100) + '%"></i></div></div>' +
+        S.cart.map(function (i) {
+          var p = P(i.id), hex = COLORS[i.color];
+          return '<div class="item"><div class="stage" style="--c:' + hex + '">' + art(p.type, hex, i.mono, '') + '</div><div><h3>' + esc(p.name) + '</h3><p class="opt-t">' + esc(i.color) + (i.mono ? ', initials ' + esc(i.mono) : '') + '</p>' +
+            '<div><span class="stepper"><button data-action="cqty" data-k="' + esc(i.key) + '" data-d="-1" aria-label="Fewer ' + esc(p.name) + '">\u2212</button><output>' + i.qty + '</output><button data-action="cqty" data-k="' + esc(i.key) + '" data-d="1" aria-label="More ' + esc(p.name) + '">+</button></span><button class="rm" data-action="crm" data-k="' + esc(i.key) + '">Remove</button></div></div>' +
+            '<div class="price">' + INR(unit(i) * i.qty) + '</div></div>';
+        }).join('');
+      foot = '<div class="cart-f"><div class="promo"><input id="promoIn" placeholder="Promo code" aria-label="Promo code" value="' + (S.promo || '') + '"><button class="btn small" data-action="promo">Apply</button></div><p class="msg ' + (S.promo ? 'ok' : '') + '" id="promoMsg">' + (S.promo ? S.promo + ' applied: ' + PROMOS[S.promo].label + '.' : 'Try FIRST10 or MAKER500.') + '</p>' +
+        '<div class="row"><span>Subtotal</span><span>' + INR(t.sub) + '</span></div>' +
+        (t.disc ? '<div class="row"><span>Discount</span><span class="neg">\u2212' + INR(t.disc) + '</span></div>' : '') +
+        '<div class="row"><span>Shipping</span><span>' + (t.ship ? INR(t.ship) : 'Free') + '</span></div>' +
+        '<div class="row total"><span>Total</span><span>' + INR(t.total) + '</span></div>' +
+        '<button class="btn primary" data-action="checkout">Checkout</button><p class="note">Open-box delivery: you can pay after inspecting your piece.</p></div>';
+    }
+    $('#cdlg').innerHTML = '<div class="cart"><div class="cart-h"><h2>Your bag' + (n ? ' (' + n + ')' : '') + '</h2>' + xBtn + '</div><div class="cart-b">' + body + '</div>' + foot + '</div>';
+    updateBadges();
+  }
+
+  /* ---------- checkout ---------- */
+  function renderCheckout() {
+    var t = totals();
+    $('#kdlg').innerHTML = '<form class="co" data-form="checkout" novalidate>' + xBtn + '<h2>Checkout</h2>' +
+      '<div class="fgrid">' +
+      field('name', 'Full name', 'text', 'name', 'full') + field('phone', 'Mobile number', 'tel', 'tel') + field('pin', 'Pincode', 'text', 'postal-code') +
+      field('address', 'Address', 'text', 'street-address', 'full') + field('city', 'City', 'text', 'address-level2', 'full') + '</div>' +
+      '<fieldset style="border:0;padding:0;margin:0"><legend class="lbl">How would you like to pay?</legend><div class="paygrid">' +
+      '<label class="pay"><input type="radio" name="pay" value="openbox" checked><div><b>Pay after open-box inspection</b><span>Check the piece at your door, then pay the courier. Return it on the spot if it isn\u2019t right.</span></div></label>' +
+      '<label class="pay"><input type="radio" name="pay" value="online"><div><b>Pay online now</b><span>UPI or card. This is a demo, so no payment is taken.</span></div></label></div></fieldset>' +
+      '<div class="row total"><span>Total to pay</span><span>' + INR(t.total) + '</span></div>' +
+      '<button class="btn primary" type="submit">Place order</button><p class="note">Demo store: placing an order creates trace codes you can look up below, and nothing is charged.</p></form>';
+  }
+  function field(n, label, type, ac, cls) {
+    return '<div class="f ' + (cls || '') + '"><label for="f_' + n + '">' + label + '</label><input id="f_' + n + '" name="' + n + '" type="' + type + '" autocomplete="' + ac + '"><p class="msg err" id="e_' + n + '"></p></div>';
+  }
+  function submitCheckout(form) {
+    var v = {}; ['name', 'phone', 'pin', 'address', 'city'].forEach(function (k) { v[k] = form.elements[k].value.trim(); });
+    var rules = {
+      name: [v.name.length >= 2, 'Enter your full name.'],
+      phone: [/^[6-9]\d{9}$/.test(v.phone), 'Enter a 10-digit mobile number.'],
+      pin: [/^[1-8]\d{5}$/.test(v.pin), 'Enter a valid 6-digit pincode.'],
+      address: [v.address.length >= 8, 'Enter your street address.'],
+      city: [v.city.length >= 2, 'Enter your city.']
+    };
+    var bad = null;
+    Object.keys(rules).forEach(function (k) {
+      var ok = rules[k][0], inp = form.elements[k];
+      $('#e_' + k).textContent = ok ? '' : rules[k][1];
+      inp.setAttribute('aria-invalid', String(!ok));
+      if (!ok && !bad) bad = inp;
+    });
+    if (bad) { bad.focus(); return; }
+    var t = totals(), now = Date.now(), d = new Date(now);
+    var oid = 'KH-' + String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(Math.floor(1000 + Math.random() * 9000));
+    var lead = Math.max.apply(null, S.cart.map(function (i) { return P(i.id).lead[1]; }));
+    var leadLo = Math.max.apply(null, S.cart.map(function (i) { return P(i.id).lead[0]; }));
+    var order = { id: oid, ts: now, pay: form.elements.pay.value, total: t.total, pin: v.pin, city: v.city, eta: etaText(leadLo, lead, v.pin),
+      items: S.cart.map(function (i, n) { return { code: oid + '-' + (n + 1), id: i.id, color: i.color, mono: i.mono, qty: i.qty }; }) };
+    S.orders.unshift(order); S.cart = []; S.promo = null; save(); renderCart(); updateBadges();
+    $('#kdlg').innerHTML = '<div class="co done-card">' + xBtn + '<span class="badge" style="justify-self:start">Order placed</span><h2>Thank you, ' + esc(v.name.split(' ')[0]) + '.</h2>' +
+      '<p>Your order <b>' + order.id + '</b> is with our makers. Expected delivery: <b>' + order.eta + '</b>. ' + (order.pay === 'openbox' ? 'You\u2019ll pay after inspecting it at the door.' : 'Payment is skipped in this demo.') + '</p>' +
+      '<div><span class="lbl">Your trace codes</span><ul class="codes">' + order.items.map(function (it) { return '<li><span>' + esc(P(it.id).name) + '</span><b>' + it.code + '</b></li>'; }).join('') + '</ul></div>' +
+      '<div class="buyrow"><button class="btn primary" data-action="trace-order" data-code="' + order.items[0].code + '">Trace my piece</button><button class="btn" data-action="close">Keep browsing</button></div></div>';
+  }
+
+  /* ---------- quiz ---------- */
+  var QUIZ = [
+    { q: 'What will you carry most days?', o: [
+      { t: 'A laptop and papers', ph: 'a laptop and papers', s: { sleeve: 3, messenger: 2, courier: 1 } },
+      { t: 'Everyday essentials: phone, bottle, a book', ph: 'everyday essentials', s: { tote: 3, courier: 2, market: 2 } },
+      { t: 'Just cards and a little cash', ph: 'cards and a little cash', s: { wallet: 5 } },
+      { t: 'A passport and boarding passes', ph: 'a passport and boarding passes', s: { passport: 5 } },
+      { t: 'I want a better desk setup', ph: 'a desk setup to tidy', s: { mat: 5 } }] },
+    { q: 'How do you usually get around?', o: [
+      { t: 'Bike, metro or on foot', ph: 'by bike, metro or on foot', s: { courier: 2, messenger: 1, wallet: 1 } },
+      { t: 'Car and the office', ph: 'by car to the office', s: { tote: 2, sleeve: 1, market: 1, mat: 1 } },
+      { t: 'Flights and trains', ph: 'by plane and train', s: { passport: 2, messenger: 1, tote: 1 } },
+      { t: 'Mostly from home', ph: 'mostly from home', s: { mat: 1, wallet: 1, sleeve: 1 } }] },
+    { q: 'Which colour mood suits you?', o: [
+      { t: 'Dark and quiet', ph: 'dark and quiet', c: ['Charcoal', 'Ink blue', 'Oxblood'] },
+      { t: 'Warm and earthy', ph: 'warm and earthy', c: ['Tan', 'Sand', 'Olive'] },
+      { t: 'Deep and rich', ph: 'deep and rich', c: ['Oxblood', 'Olive', 'Ink blue'] }] }
+  ];
+  function renderQuiz() {
+    var Q = S.quiz, box = $('#quiz');
+    if (Q.step < QUIZ.length) {
+      var q = QUIZ[Q.step];
+      box.innerHTML = '<p class="q-step">Question ' + (Q.step + 1) + ' of ' + QUIZ.length + '</p><h3 class="q-title">' + q.q + '</h3><div class="opts">' + q.o.map(function (o, i) { return '<button class="opt" data-action="qpick" data-i="' + i + '">' + o.t + '</button>'; }).join('') + '</div>';
+      return;
+    }
+    var score = {}; PRODUCTS.forEach(function (p) { score[p.id] = 0; });
+    [0, 1].forEach(function (k) { var s = QUIZ[k].o[Q.ans[k]].s; Object.keys(s).forEach(function (id) { score[id] += s[id]; }); });
+    var best = PRODUCTS.slice().sort(function (a, b) { return score[b.id] - score[a.id] || b.rating - a.rating; })[0];
+    var pref = QUIZ[2].o[Q.ans[2]].c, color = pref.filter(function (c) { return best.colors.indexOf(c) >= 0; })[0] || best.colors[0], hex = COLORS[color];
+    box.innerHTML = '<div class="result"><div class="stage" style="--c:' + hex + '">' + art(best.type, hex, '', best.name + ' in ' + color) + '</div><div>' +
+      '<span class="badge">Your match</span><h3>' + esc(best.name) + ' in ' + esc(color.toLowerCase()) + '</h3>' +
+      '<p>You carry ' + QUIZ[0].o[Q.ans[0]].ph + ', get around ' + QUIZ[1].o[Q.ans[1]].ph + ', and like colours that are ' + QUIZ[2].o[Q.ans[2]].ph + '. This piece fits that best, at ' + INR(best.price) + '.</p>' +
+      '<p style="margin-top:8px">If it isn\u2019t the right fit, exchange it free within 30 days.</p>' +
+      '<div class="buyrow" style="margin-top:16px"><button class="btn primary small" data-action="open-match" data-id="' + best.id + '" data-n="' + esc(color) + '">See this piece</button><button class="btn small" data-action="qreset">Retake the quiz</button></div></div></div>';
+  }
+
+  /* ---------- trace ---------- */
+  var STEPS = [
+    ['Order placed', 0], ['Leather cut to your pattern', 12], ['Panels hand-stitched', 36], ['Edges burnished, initials stamped', 60], ['Quality check', 84], ['Handed to the courier', 108]
+  ];
+  function findTrace(code) {
+    code = code.trim().toUpperCase();
+    if (code === 'KH-DEMO-1') return { code: code, id: 'tote', color: 'Tan', mono: 'AK', ts: Date.now() - 70 * 36e5, demo: true };
+    for (var i = 0; i < S.orders.length; i++) {
+      var o = S.orders[i];
+      for (var j = 0; j < o.items.length; j++) if (o.items[j].code === code) return { code: code, id: o.items[j].id, color: o.items[j].color, mono: o.items[j].mono, ts: o.ts };
+    }
+    return null;
+  }
+  function showTrace(code) {
+    var out = $('#tres'), r = code.trim() ? findTrace(code) : null;
+    if (!code.trim()) { out.innerHTML = '<p class="tmsg">Enter a trace code to see who made your piece and where it is in the build.</p>'; return; }
+    if (!r) { out.innerHTML = '<p class="tmsg">We couldn\u2019t find <b>' + esc(code.trim().toUpperCase()) + '</b>. Check the code on your order confirmation, or try KH-DEMO-1.</p>'; return; }
+    var p = P(r.id), hex = COLORS[r.color], hrs = (Date.now() - r.ts) / 36e5, cur = -1;
+    STEPS.forEach(function (s, i) { if (hrs >= s[1]) cur = i; });
+    out.innerHTML = '<div class="tcard"><div class="stage" style="--c:' + hex + '">' + art(p.type, hex, r.mono, '') + '</div><div>' +
+      '<h3>' + esc(p.name) + ', ' + esc(r.color.toLowerCase()) + '</h3><p class="by">Made by ' + esc(p.maker.name) + ' in ' + esc(p.maker.city) + (r.demo ? ' (sample piece)' : '') + '</p>' +
+      '<p class="quote">\u201C' + esc(p.maker.note) + '\u201D</p>' +
+      '<ol class="tl">' + STEPS.map(function (s, i) {
+        var cls = i < cur ? 'done' : i === cur ? (cur === STEPS.length - 1 ? 'done' : 'now') : '';
+        var when = i <= cur ? '<small>' + new Date(r.ts + s[1] * 36e5).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) + '</small>' : '';
+        return '<li class="' + cls + '">' + s[0] + when + '</li>';
+      }).join('') + '</ol></div></div>';
+  }
+
+  /* ---------- events ---------- */
+  var actions = {
+    'cat': function (t) { S.cat = t.dataset.v; renderShop(); },
+    'clear': function () { S.cat = 'All'; S.q = ''; S.saved = false; $('#q').value = ''; renderShop(); },
+    'saved-toggle': function () { S.saved = !S.saved; renderShop(); if (S.saved) $('#shop').scrollIntoView(); },
+    'open': function (t) { openProduct(t.dataset.id); },
+    'open-match': function (t) { openProduct(t.dataset.id, { color: t.dataset.n }); $('#pdlg').scrollTop = 0; },
+    'wish': function (t) {
+      var id = t.dataset.id, i = S.wish.indexOf(id);
+      if (i >= 0) { S.wish.splice(i, 1); toast('Removed from saved'); } else { S.wish.push(id); toast('Saved for later'); }
+      save(); renderShop();
+    },
+    'cardcolor': function (t) { S.cardColor[t.dataset.id] = t.dataset.n; renderShop(); },
+    'quickadd': function (t) { var p = P(t.dataset.id); addToCart(p.id, S.cardColor[p.id] || p.colors[0], '', 1); },
+    'hcolor': function (t) { S.hero.color = t.dataset.n; paintHero(); },
+    'hero-open': function () { openProduct('tote', { color: S.hero.color, mono: S.hero.mono }); },
+    'promo-open': function (t) { openProduct(t.dataset.id, { tab: t.dataset.tab, focus: t.dataset.focus }); },
+    'goto': function (t) { var el = $(t.dataset.t); if (el) el.scrollIntoView(); if (t.dataset.t === '#trace') { $('#tcode').value = 'KH-DEMO-1'; showTrace('KH-DEMO-1'); } },
+    'goto-trace': function () { closeDlg($('#pdlg')); $('#trace').scrollIntoView(); $('#tcode').value = 'KH-DEMO-1'; showTrace('KH-DEMO-1'); },
+    'trace-sample': function () { $('#tcode').value = 'KH-DEMO-1'; showTrace('KH-DEMO-1'); },
+    'trace-order': function (t) { closeDlg($('#kdlg')); $('#tcode').value = t.dataset.code; showTrace(t.dataset.code); $('#trace').scrollIntoView(); },
+    'close': function (t) { var d = t.closest('dialog'); if (d) d.close(); },
+    'pmview': function (t) { pm.view = t.dataset.v; pmStage(); },
+    'pmcolor': function (t) { pm.color = t.dataset.n; pmStage(); },
+    'pmqty': function (t) { pm.qty = Math.max(1, Math.min(9, pm.qty + (+t.dataset.d))); pmStage(); },
+    'pmtab': function (t) { pm.tab = t.dataset.v; pmPanel(); },
+    'pmadd': function () { addToCart(pm.id, pm.color, pm.mono, pm.qty); closeDlg($('#pdlg')); renderCart(); openDlg($('#cdlg')); },
+    'pincheck': function () { checkPin(); },
+    'cart-open': function () { renderCart(); openDlg($('#cdlg')); },
+    'cart-browse': function () { closeDlg($('#cdlg')); $('#shop').scrollIntoView(); },
+    'cqty': function (t) {
+      var it = S.cart.filter(function (i) { return i.key === t.dataset.k; })[0]; if (!it) return;
+      it.qty += +t.dataset.d; if (it.qty < 1) S.cart.splice(S.cart.indexOf(it), 1); it.qty = Math.min(9, it.qty);
+      save(); renderCart();
+    },
+    'crm': function (t) { S.cart = S.cart.filter(function (i) { return i.key !== t.dataset.k; }); save(); renderCart(); },
+    'promo': function () {
+      var code = $('#promoIn').value.trim().toUpperCase(), msg = $('#promoMsg'), t = totals();
+      if (!code) { S.promo = null; save(); renderCart(); return; }
+      if (!PROMOS[code]) { msg.className = 'msg err'; msg.textContent = 'That code isn\u2019t valid. Try FIRST10 or MAKER500.'; return; }
+      if (PROMOS[code].calc(t.sub) === 0) { msg.className = 'msg err'; msg.textContent = 'MAKER500 needs a subtotal above ' + INR(PROMOS[code].need) + '.'; return; }
+      S.promo = code; save(); renderCart();
+    },
+    'checkout': function () { closeDlg($('#cdlg')); renderCheckout(); openDlg($('#kdlg')); },
+    'qpick': function (t) { S.quiz.ans[S.quiz.step] = +t.dataset.i; S.quiz.step++; renderQuiz(); },
+    'qreset': function () { S.quiz = { step: 0, ans: [] }; renderQuiz(); }
+  };
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-action]');
+    if (t && actions[t.dataset.action]) actions[t.dataset.action](t, e);
+  });
+  document.addEventListener('input', function (e) {
+    var t = e.target, k = t.dataset && t.dataset.input;
+    if (!k) return;
+    if (k === 'search') { S.q = t.value; renderShop(); }
+    else if (k === 'hmono') { S.hero.mono = cleanMono(t.value); t.value = S.hero.mono; paintHero(); }
+    else if (k === 'pmmono') { pm.mono = cleanMono(t.value); t.value = pm.mono; pmStage(); }
+    else if (k === 'pin') { t.value = t.value.replace(/\D/g, '').slice(0, 6); }
+    else if (k === 'bb') { updateBuyback(); }
+  });
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.dataset && t.dataset.change === 'sort') { S.sort = t.value; renderShop(); }
+    if (t.dataset && t.dataset.input === 'bb') updateBuyback();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.id === 'pmPin') { e.preventDefault(); checkPin(); }
+    if (e.key === 'Enter' && e.target.id === 'promoIn') { e.preventDefault(); actions.promo(); }
+  });
+  document.addEventListener('submit', function (e) {
+    var f = e.target.dataset && e.target.dataset.form;
+    if (!f) return;
+    e.preventDefault();
+    if (f === 'checkout') submitCheckout(e.target);
+    if (f === 'trace') showTrace($('#tcode').value);
+  });
+
+  /* ---------- init ---------- */
+  load();
+  renderHero(); renderShop(); renderQuiz(); showTrace(''); updateBadges();
+})();
+</script>
+</body>
+</html>
